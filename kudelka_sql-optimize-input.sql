@@ -18,7 +18,7 @@ SELECT
 	BSEG.BUZEI,
 	BSEG.BSCHL,
 	BSEG.SHKZG,
-    	CASE WHEN BSEG.SHKZG = 'H' THEN (-1) * BSEG.DMBTR ELSE BSEG.DMBTR END AS DMBTR,					  --Not sure whats the role of (-1). Maybe we could use absolute value, but I cannot say when I dont see the records/I dont know the reques .... just thinking ...
+    	CASE WHEN BSEG.SHKZG = 'H' THEN (-1) * BSEG.DMBTR ELSE BSEG.DMBTR END AS DMBTR,					  --Not sure whats the role of (-1). Maybe we could use absolute value, but I cannot say when I dont see the records/I dont know the request .... just thinking ...
 
     	COALESCE(LFA1.LAND1, 'Andere') AS LAND1, 
         LFA1.LIFNR,
@@ -53,7 +53,7 @@ INNER JOIN "DTAG_DEV_CSBI_CELONIS_DATA"."dtag.dev.csbi.celonis.data.elog::V_BSEG
     AND BKPF.BELNR = BSEG.BELNR
     AND BSEG.DMBTR*-1 >= 0											          --We can write it like "AND BSEG.DMBTR <= 0"
 
-INNER JOIN (SELECT * FROM "DTAG_DEV_CSBI_CELONIS_DATA"."dtag.dev.csbi.celonis.data.elog::V_LFA1" AS TEMP                  --We should select only the needed columns. I also assume that this derived query has some sense (its efficient) in the query Otherwise its not needed to filter the records at this place.
+INNER JOIN (SELECT * FROM "DTAG_DEV_CSBI_CELONIS_DATA"."dtag.dev.csbi.celonis.data.elog::V_LFA1" AS TEMP                  --We should select only the needed columns. I also assume that this derived query has some sense (its efficient) in the query. Otherwise its not needed to filter the records at this place.
             WHERE TEMP.LIFNR > '020000000') AS LFA1 ON 1=1 								  --I assume we are working with numbers=>leading zero and quotation marks are not needed
     AND BSEG.ZSYSNAME = LFA1.ZSYSNAME
     AND BSEG.LIFNR=LFA1.LIFNR
